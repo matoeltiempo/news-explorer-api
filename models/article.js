@@ -22,6 +22,14 @@ const articleSchema = new mongoose.Schema({
     require: true,
     type: String,
   },
+  link: {
+    require: true,
+    type: String,
+    validate: {
+      validator: (v) => isUrl(v),
+      message: "Не ссылка",
+    },
+  },
   image: {
     require: true,
     type: String,
