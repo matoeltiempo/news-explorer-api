@@ -12,6 +12,8 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
+const createUserRouter = require('./routes/create-user');
+const loginRouter = require('./routes/login');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -38,6 +40,8 @@ app.use(requestLogger);
 
 app.use('/articles', articlesRouter);
 app.use('/users', usersRouter);
+app.use('/signup', createUserRouter);
+app.use('/signin', loginRouter);
 
 app.use(errorLogger);
 
