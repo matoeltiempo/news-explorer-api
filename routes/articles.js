@@ -1,22 +1,17 @@
-const { celebrate, Joi } = require('express').Router;
-const router = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
+const articleRouter = require('express').Router();
+const { createArticle } = require('../controllers/article');
 
-router.get('/', returnsArticles);
-
-router.post('/', celebrate({
+articleRouter.post('/', celebrate({
   body: Joi.object().keys({
-    keyword: Joi.string().require(),
-    title: Joi.string().require(),
-    text: Joi.string().require(),
-    date: Joi.string().require(),
-    source: Joi.string().require(),
-    link: Joi.string().require().uri(),
-    image: Joi.string().require().uri(),
+    keyword: Joi.string().required(),
+    title: Joi.string().required(),
+    text: Joi.string().required(),
+    date: Joi.string().required(),
+    source: Joi.string().required(),
+    link: Joi.string().required().uri(),
+    image: Joi.string().required().uri(),
   }),
-}), createArticles);
+}), createArticle);
 
-router.delete('/', celebrate({
-  articledId: Joi.string().alphanum().length(24).required(),
-}) deleteArticle);
-
-module.exports = router;
+module.exports = articleRouter;

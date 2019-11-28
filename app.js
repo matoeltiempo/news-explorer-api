@@ -10,6 +10,9 @@ const helmet = require('helmet');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
+const usersRouter = require('./routes/users');
+const articlesRouter = require('./routes/articles');
+
 const { PORT = 3000 } = process.env;
 const app = express();
 
@@ -33,8 +36,16 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(requestLogger);
 
+app.use('/articles', articlesRouter);
+app.use('/users', usersRouter);
+
 app.use(errorLogger);
 
 app.use(errors());
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
+});
 
 app.listen(PORT);
