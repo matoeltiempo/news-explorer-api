@@ -3,19 +3,20 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const { errors } = require('celebrate');
 const path = require('path');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 
+const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { MONGODEV } = require('./config');
 
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
 const createUserRouter = require('./routes/create-user');
 const loginRouter = require('./routes/login');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, MONGODB = MONGODEV } = process.env;
 const app = express();
 
 const limiter = rateLimit({

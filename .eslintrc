@@ -11,6 +11,7 @@
     "func-names":"off",
     "consistent-return":"off",
     "arrow-body-style":"off",
-    "no-useless-escape": "off"
+    "no-useless-escape": "off",
+    "no-unused-vars":"off"
   }
 }
