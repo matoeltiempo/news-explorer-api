@@ -52,4 +52,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log('App is listening to port', PORT);
+});
