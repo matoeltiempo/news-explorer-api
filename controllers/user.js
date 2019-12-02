@@ -6,11 +6,11 @@ const NotFoundError = require('../errors/not-found-error');
 const NotCorrectData = require('../errors/not-correct-data');
 
 module.exports.returnsUser = (req, res, next) => User
-  .findOne({ _id: req.params.UserId })
+  .findById(req.user._id)
   .then((user) => {
     if (!user) {
       throw new NotFoundError('Нет пользователя с таким id');
-    } res.send(user);
+    } res.send({ user: user.name, email: user.email });
   }).catch(next);
 
 module.exports.createUser = (req, res, next) => {
@@ -23,7 +23,7 @@ module.exports.createUser = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotCorrectData('Неверные данные пользователя');
-      } res.send(user);
+      } res.send({ user: user.name, email: user.email });
     }).catch(next);
 };
 

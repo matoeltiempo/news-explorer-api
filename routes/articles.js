@@ -1,6 +1,9 @@
 const { celebrate, Joi } = require('celebrate');
 const articleRouter = require('express').Router();
-const { createArticle } = require('../controllers/article');
+const { createArticle, returnsArticles, deleteArticle } = require('../controllers/article');
+const auth = require('../middlewares/auth');
+
+articleRouter.get('/', auth, returnsArticles);
 
 articleRouter.post('/', celebrate({
   body: Joi.object().keys({
@@ -12,6 +15,12 @@ articleRouter.post('/', celebrate({
     link: Joi.string().required().uri(),
     image: Joi.string().required().uri(),
   }),
-}), createArticle);
+}), auth, createArticle);
+
+articleRouter.delete('/:articleId', celebrate({
+  body: Joi.object().keys({
+    articleId: Joi.string().alphanum().length(24).required(),
+  }),
+}), auth, deleteArticle);
 
 module.exports = articleRouter;
