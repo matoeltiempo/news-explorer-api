@@ -7,6 +7,6 @@ module.exports = {
   WrongData: 'Неправильные почта или пароль',
   WrongEmail: 'Неправильная почта',
   ResourseIsNoTFound: 'Запрашиваемый ресурс не найден',
-  ErrorSerever: 'На сервере произошла ошибка',
+  ErrorServer: 'На сервере произошла ошибка',
   AppPort: 'App is listening to port',
 };

@@ -9,7 +9,7 @@ const helmet = require('helmet');
 
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { ResourseIsNoTFound, ErrorSerever, AppPort } = require('./config/message');
+const { ResourseIsNoTFound, ErrorServer, AppPort } = require('./config/message');
 const { MONGODEV, rateLimitWin, rateLimitMax } = require('./config/dev');
 
 const usersRouter = require('./routes/users');
@@ -56,7 +56,7 @@ app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
-  res.status(statusCode).send({ message: statusCode === 500 ? ErrorSerever : message });
+  res.status(statusCode).send({ message: statusCode === 500 ? ErrorServer : message });
   next();
 });
 
