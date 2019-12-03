@@ -9,7 +9,8 @@ const helmet = require('helmet');
 
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { MONGODEV } = require('./config');
+const { ResourseIsNoTFound, ErrorSerever, AppPort } = require('./config/message');
+const { MONGODEV, rateLimitWin, rateLimitMax } = require('./config/dev');
 
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
@@ -21,11 +22,11 @@ const { PORT = 3000, MONGODB = MONGODEV } = process.env;
 const app = express();
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
+  windowMs: rateLimitWin,
+  max: rateLimitMax,
 });
 
-mongoose.connect("mongodb://localhost:27017/mestodb", {
+mongoose.connect(MONGODB, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -46,7 +47,7 @@ app.use('/signup', createUserRouter);
 app.use('/signin', loginRouter);
 
 app.use('/*', () => {
-  throw new NotFoundError('Запрашиваемый ресурс не найден');
+  throw new NotFoundError(ResourseIsNoTFound);
 });
 
 app.use(errorLogger);
@@ -55,9 +56,10 @@ app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
-  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
+  res.status(statusCode).send({ message: statusCode === 500 ? ErrorSerever : message });
+  next();
 });
 
 app.listen(PORT, () => {
-  console.log('App is listening to port', PORT);
+  console.log(AppPort, PORT);
 });

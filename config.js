@@ -1,1 +1,0 @@
-module.exports.MONGODEV = 'mongodb://localhost:27017/news';

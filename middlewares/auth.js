@@ -2,11 +2,12 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 const jwt = require('jsonwebtoken');
 const NotUserAuthorization = require('../errors/not-user-authorization');
+const { NeedToLogin, WrongData } = require('../config/message');
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    throw new NotUserAuthorization('Необходима авторизация');
+    throw new NotUserAuthorization(NeedToLogin);
   }
 
   const token = authorization.replace('Bearer ', '');
@@ -15,7 +16,7 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
   } catch (err) {
-    throw new NotUserAuthorization('Неправильные почта или пароль');
+    throw new NotUserAuthorization(WrongData);
   } req.user = payload;
   next();
 };

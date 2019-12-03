@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const isUrl = require('validator/lib/isURL');
+const NoUrl = require('../config/message');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -15,7 +16,7 @@ const articleSchema = new mongoose.Schema({
     type: String,
   },
   date: {
-    require: Date,
+    require: true,
     type: String,
   },
   source: {
@@ -27,7 +28,7 @@ const articleSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: (v) => isUrl(v),
-      message: "Не ссылка",
+      message: NoUrl,
     },
   },
   image: {
@@ -35,7 +36,7 @@ const articleSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: (v) => isUrl(v),
-      message: "Не ссылка",
+      message: NoUrl,
     },
   },
   owner: {
