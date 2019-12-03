@@ -18,7 +18,7 @@ articleRouter.post('/', celebrate({
 }), auth, createArticle);
 
 articleRouter.delete('/:articleId', celebrate({
-  body: Joi.object().keys({
+  params: Joi.object().keys({
     articleId: Joi.string().alphanum().length(24).required(),
   }),
 }), auth, deleteArticle);

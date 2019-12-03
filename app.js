@@ -15,6 +15,7 @@ const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
 const createUserRouter = require('./routes/create-user');
 const loginRouter = require('./routes/login');
+const NotFoundError = require('./errors/not-found-error');
 
 const { PORT = 3000, MONGODB = MONGODEV } = process.env;
 const app = express();
@@ -43,6 +44,10 @@ app.use('/articles', articlesRouter);
 app.use('/users', usersRouter);
 app.use('/signup', createUserRouter);
 app.use('/signin', loginRouter);
+
+app.use('/*', () => {
+  throw new NotFoundError('Запрашиваемый ресурс не найден');
+});
 
 app.use(errorLogger);
 
