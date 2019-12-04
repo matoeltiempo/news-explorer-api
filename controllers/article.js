@@ -1,6 +1,7 @@
 const Article = require('../models/article');
 const NotDataAccess = require('../errors/not-data-access');
-const { NoRemove } = require('../config/message');
+const NotCorrectData = require('../errors/not-correct-data');
+const { NoRemove, WrongRequest } = require('../config/message');
 
 module.exports.createArticle = (req, res, next) => {
   const { keywords, title, text, date, source, link, image } = req.body;
@@ -25,6 +26,6 @@ module.exports.deleteArticle = (req, res, next) => {
         Article.findByIdAndRemove(req.params.articleId)
           .then(() => res.send(articleData))
           .catch(next);
-      }
+      } throw new NotCorrectData(WrongRequest);
     }).catch(next);
 };

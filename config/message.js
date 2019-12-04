@@ -6,6 +6,7 @@ module.exports = {
   NoUserData: 'Неверные данные пользователя',
   NeedToLogin: 'Необходима авторизация',
   WrongData: 'Неправильные почта или пароль',
+  WrongRequest: 'Неправильный запрос',
   WrongEmail: 'Неправильная почта',
   ResourseIsNoTFound: 'Запрашиваемый ресурс не найден',
   ErrorServer: 'На сервере произошла ошибка',
