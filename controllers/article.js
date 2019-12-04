@@ -26,6 +26,6 @@ module.exports.deleteArticle = (req, res, next) => {
         Article.findByIdAndRemove(req.params.articleId)
           .then(() => res.send(articleData))
           .catch(next);
-      } throw new NotCorrectData(WrongRequest);
-    }).catch(next);
+      }
+    }).catch(next(new NotCorrectData(WrongRequest)));
 };
