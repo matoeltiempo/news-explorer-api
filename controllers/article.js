@@ -1,7 +1,7 @@
 const Article = require('../models/article');
 const NotDataAccess = require('../errors/not-data-access');
 const NotUserAuthorization = require('../errors/not-user-authorization');
-const AuthorizationError = require('../config/message');
+const { AuthorizationError, NoRemove } = require('../config/message');
 
 module.exports.createArticle = (req, res, next) => {
   const { keywords, title, text, date, source, link, image } = req.body;
@@ -25,7 +25,7 @@ module.exports.deleteArticle = (req, res, next) => {
       } else {
         Article.findByIdAndRemove(req.params.articleId)
           .then(() => res.send(articleData))
-          .catch(next)(new NotUserAuthorization('Невозможно удалить чужую статью'));
-      }
+          .catch(next);
+      } throw new NotUserAuthorization(NoRemove);
     }).catch(next);
 };
