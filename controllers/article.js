@@ -1,5 +1,5 @@
 const Article = require('../models/article');
-const NotDataAccess = require('../errors/not-data-access');
+const NotCorrectData = require('../errors/not-correct-data');
 const NotUserAuthorization = require('../errors/not-user-authorization');
 const { AuthorizationError, NoRemove } = require('../config/message');
 
@@ -21,7 +21,7 @@ module.exports.deleteArticle = (req, res, next) => {
     .then((article) => {
       const articleData = { data: article };
       if (JSON.stringify(articleData.data.owner) !== JSON.stringify(req.user._id)) {
-        throw new NotDataAccess(AuthorizationError);
+        throw new NotCorrectData(AuthorizationError);
       } else {
         Article.findByIdAndRemove(req.params.articleId)
           .then(() => res.send(articleData))
